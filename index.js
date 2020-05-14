@@ -1,7 +1,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = document.documentElement.clientWidth
-canvas.height = document.documentElement.clientHeight
+canvas.height = document.documentElement.clientHeight - 4
 var isTouchDevice = 'ontouchstart' in document.documentElement
 let painting = false
 let last
@@ -9,19 +9,13 @@ ctx.lineWidth = 8
 ctx.lineCap = "round"
 
 if (isTouchDevice) {
-    canvas.ontouchstart = () => {
-        painting = true
-    }
-    canvas.ontouchend = () => {
-        painting = false
+    canvas.ontouchstart = (e) => {
+        last = [e.touches[0].clientX, e.touches[0].clientY]
     }
     canvas.ontouchmove = (e) => {
-        if (painting === true) {
-            ctx.beginPath()
-            // 手机端触摸事件有可能存在多点，我们需要获取第一个点的坐标 touches
-            ctx.arc(e.touches[0].clientX, e.touches[0].clientY, 3, 0, 2 * Math.PI)
-            ctx.fill()
-        }
+        // 手机端触摸事件有可能存在多点，我们需要获取第一个点的坐标 touches
+        draw(last[0], last[1], e.touches[0].clientX, e.touches[0].clientY)
+        last = [e.touches[0].clientX, e.touches[0].clientY]
     }
 } else {
     canvas.onmousedown = (e) => {
