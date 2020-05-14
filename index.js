@@ -5,6 +5,8 @@ canvas.height = document.documentElement.clientHeight
 var isTouchDevice = 'ontouchstart' in document.documentElement
 let painting = false
 let last
+ctx.lineWidth = 8
+ctx.lineCap = "round"
 
 if (isTouchDevice) {
     canvas.ontouchstart = () => {
