@@ -4,6 +4,7 @@ canvas.width = document.documentElement.clientWidth
 canvas.height = document.documentElement.clientHeight
 var isTouchDevice = 'ontouchstart' in document.documentElement
 let painting = false
+let last
 
 if (isTouchDevice) {
     canvas.ontouchstart = () => {
@@ -21,17 +22,25 @@ if (isTouchDevice) {
         }
     }
 } else {
-    canvas.onmousedown = () => {
+    canvas.onmousedown = (e) => {
         painting = true
+        last = [e.clientX, e.clientY]
     }
     canvas.onmouseup = () => {
         painting = false
     }
     canvas.onmousemove = (e) => {
         if (painting === true) {
-            ctx.beginPath()
-            ctx.arc(e.clientX, e.clientY, 3, 0, 2 * Math.PI)
-            ctx.fill()
+            draw(last[0], last[1], e.clientX, e.clientY)
+            last = [e.clientX, e.clientY]
         }
     }
+}
+
+// 声明一个划线的函数
+function draw(x1, x2, y1, y2) {
+    ctx.beginPath();
+    ctx.moveTo(x1, x2);
+    ctx.lineTo(y1, y2);
+    ctx.stroke()
 }
