@@ -5,15 +5,13 @@ var isTouchDevice = 'ontouchstart' in document.documentElement
 canvas.width = document.documentElement.clientWidth
 canvas.height = document.documentElement.clientHeight - 4
 
-
-
 let painting = false
 let last
-
 ctx.lineWidth = 4
 ctx.lineCap = "round"
 ctx.strokeStyle = 'black'
 
+// Tools
 let penBlack = document.querySelector('.penBlack')
 let penWhite = document.querySelector('.penWhite')
 let penRed = document.querySelector('.penRed')
@@ -50,6 +48,8 @@ bgcWhite.onclick = () => {
     canvas.style.background !== 'White' ? canvas.style.background = 'White' : canvas.style.background
 }
 
+// 绘画
+
 if (isTouchDevice) {
     canvas.ontouchstart = (e) => {
         last = [e.touches[0].clientX, e.touches[0].clientY]
@@ -77,27 +77,38 @@ if (isTouchDevice) {
 
 // 检测窗口是否变动
 let onresizeTime = 0
-window.onresize = () => {
-    if (onresizeTime !== 1) {
-        if (isTouchDevice) {
-            canvas.width = document.documentElement.clientWidth
-            canvas.height = document.documentElement.clientHeight - 4
-            ctx.lineWidth = 4
-            ctx.lineCap = "round"
-            ctx.strokeStyle = 'black'
-        } else if (confirm('你的页面变化是否重置')) {
-            canvas.width = document.documentElement.clientWidth
-            canvas.height = document.documentElement.clientHeight - 4
-            ctx.lineWidth = 4
-            ctx.lineCap = "round"
-            ctx.strokeStyle = 'black'
-            onresizeTime = 1
-        } else {
-            onresizeTime = 1
+if (isTouchDevice) {
+    window.addEventListener("orientationchange", function () {
+        if (confirm('您的窗口发生改变，请问是否重置画板')) {
+            resetBoard()
         }
-    } else {
-        onresizeTime = 0
+    }, false);
+} else {
+    window.onresize = () => {
+        if (onresizeTime !== 1) {
+            if (confirm('您的窗口发生改变，请问是否重置画板')) {
+                setTimeout(() => {
+                    resetBoard()
+                }, 200)
+                onresizeTime = 1
+            } else {
+                onresizeTime = 1
+            }
+        } else {
+            onresizeTime = 0
+        }
     }
+}
+
+
+
+// 画板重置
+function resetBoard() {
+    canvas.width = document.documentElement.clientWidth
+    canvas.height = document.documentElement.clientHeight - 4
+    ctx.lineWidth = 4
+    ctx.lineCap = "round"
+    ctx.strokeStyle = 'black'
 }
 
 // 声明一个划线的函数
@@ -107,6 +118,7 @@ function draw(x1, x2, y1, y2) {
     ctx.lineTo(y1, y2);
     ctx.stroke()
 }
+
 // 禁止页面滑动
 var mo = function (e) {
     e.preventDefault();
