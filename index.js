@@ -20,6 +20,7 @@ let penMiddle = document.querySelector('.penMiddle')
 let penBig = document.querySelector('.penBig')
 let bgcBlack = document.querySelector('.bgcBlack')
 let bgcWhite = document.querySelector('.bgcWhite')
+let penEraser = document.querySelector('.penEraser')
 
 penBlack.onclick = () => {
     ctx.strokeStyle !== 'black' ? ctx.strokeStyle = 'black' : ctx.strokeStyle
@@ -46,6 +47,10 @@ bgcBlack.onclick = () => {
 }
 bgcWhite.onclick = () => {
     canvas.style.background !== 'White' ? canvas.style.background = 'White' : canvas.style.background
+}
+
+penEraser.onclick = () => {
+    resetBoard()
 }
 
 // 绘画
