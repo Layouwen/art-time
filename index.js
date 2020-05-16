@@ -1,10 +1,11 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+var isTouchDevice = 'ontouchstart' in document.documentElement
 
 canvas.width = document.documentElement.clientWidth
 canvas.height = document.documentElement.clientHeight - 4
 
-var isTouchDevice = 'ontouchstart' in document.documentElement
+
 
 let painting = false
 let last
@@ -71,6 +72,31 @@ if (isTouchDevice) {
             draw(last[0], last[1], e.clientX, e.clientY)
             last = [e.clientX, e.clientY]
         }
+    }
+}
+
+// 检测窗口是否变动
+let onresizeTime = 0
+window.onresize = () => {
+    if (onresizeTime !== 1) {
+        if (isTouchDevice) {
+            canvas.width = document.documentElement.clientWidth
+            canvas.height = document.documentElement.clientHeight - 4
+            ctx.lineWidth = 4
+            ctx.lineCap = "round"
+            ctx.strokeStyle = 'black'
+        } else if (confirm('你的页面变化是否重置')) {
+            canvas.width = document.documentElement.clientWidth
+            canvas.height = document.documentElement.clientHeight - 4
+            ctx.lineWidth = 4
+            ctx.lineCap = "round"
+            ctx.strokeStyle = 'black'
+            onresizeTime = 1
+        } else {
+            onresizeTime = 1
+        }
+    } else {
+        onresizeTime = 0
     }
 }
 
