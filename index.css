@@ -27,6 +27,11 @@ body {
     border-radius: 50%;
 }
 
+.tools>div:hover {
+    cursor: pointer;
+    border: solid 1px blue;
+}
+
 .penBlack {
     background: black;
 }
@@ -37,6 +42,12 @@ body {
 
 .penRed {
     background: red;
+}
+
+.tools div:nth-child(4),
+.tools div:nth-child(5),
+.tools div:nth-child(6) {
+    line-height: 1.1em;
 }
 
 .tools .penEraser {
