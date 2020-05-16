@@ -109,11 +109,19 @@ if (isTouchDevice) {
 
 // 画板重置
 function resetBoard() {
-    canvas.width = document.documentElement.clientWidth
-    canvas.height = document.documentElement.clientHeight - 4
-    ctx.lineWidth = 4
-    ctx.lineCap = "round"
-    ctx.strokeStyle = 'black'
+    if (canvas.style.background === 'white') {
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight - 4
+        ctx.lineWidth = 4
+        ctx.lineCap = "round"
+        ctx.strokeStyle = 'black'
+    } else {
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight - 4
+        ctx.lineWidth = 4
+        ctx.lineCap = "round"
+        ctx.strokeStyle = 'white'
+    }
 }
 
 // 声明一个划线的函数
