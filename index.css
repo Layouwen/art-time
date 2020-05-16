@@ -33,6 +33,21 @@
     background: red;
 }
 
-#canvas {
-    /* border: 1px solid red; */
+.tools .penEraser {
+    height: 2.6em;
+    border-radius: 0;
+    background: white;
+}
+
+.tools .bgcBlack,
+.tools .bgcWhite {
+    border-radius: 0;
+}
+
+.tools .bgcBlack {
+    background: black;
+}
+
+.tools .bgcWhite {
+    background: white;
 }

@@ -9,8 +9,7 @@ var isTouchDevice = 'ontouchstart' in document.documentElement
 let painting = false
 let last
 
-let thick = 4
-ctx.lineWidth = thick
+ctx.lineWidth = 4
 ctx.lineCap = "round"
 ctx.strokeStyle = 'black'
 
@@ -20,22 +19,34 @@ let penRed = document.querySelector('.penRed')
 let penSmall = document.querySelector('.penSmall')
 let penMiddle = document.querySelector('.penMiddle')
 let penBig = document.querySelector('.penBig')
+let bgcBlack = document.querySelector('.bgcBlack')
+let bgcWhite = document.querySelector('.bgcWhite')
 
-penBlack.onclick = function () {
-    console.log('1')
-    if (ctx.strokeStyle !== 'black') {
-        ctx.strokeStyle = 'black'
-    }
+penBlack.onclick = () => {
+    ctx.strokeStyle !== 'black' ? ctx.strokeStyle = 'black' : ctx.strokeStyle
 }
-penWhite.onclick = function () {
-    if (ctx.strokeStyle !== 'white') {
-        ctx.strokeStyle = 'white'
-    }
+penWhite.onclick = () => {
+    ctx.strokeStyle !== 'white' ? ctx.strokeStyle = 'white' : ctx.strokeStyle
 }
-penRed.onclick = function () {
-    if (ctx.strokeStyle !== 'red') {
-        ctx.strokeStyle = 'red'
-    }
+penRed.onclick = () => {
+    ctx.strokeStyle !== 'red' ? ctx.strokeStyle = 'red' : ctx.strokeStyle
+}
+
+penSmall.onclick = () => {
+    ctx.lineWidth !== 2 ? ctx.lineWidth = 2 : ctx.lineWidth
+}
+penMiddle.onclick = () => {
+    ctx.lineWidth !== 4 ? ctx.lineWidth = 4 : ctx.lineWidth
+}
+penBig.onclick = () => {
+    ctx.lineWidth !== 8 ? ctx.lineWidth = 8 : ctx.lineWidth
+}
+
+bgcBlack.onclick = () => {
+    canvas.style.background !== 'black' ? canvas.style.background = 'black' : canvas.style.background
+}
+bgcWhite.onclick = () => {
+    canvas.style.background !== 'White' ? canvas.style.background = 'White' : canvas.style.background
 }
 
 if (isTouchDevice) {
