@@ -81,3 +81,10 @@ function draw(x1, x2, y1, y2) {
     ctx.lineTo(y1, y2);
     ctx.stroke()
 }
+// 禁止页面滑动
+var mo = function (e) {
+    e.preventDefault();
+}
+document.addEventListener("touchmove", mo, {
+    passive: false
+})
