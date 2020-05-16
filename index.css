@@ -3,3 +3,36 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+.container {
+    position: relative;
+}
+
+.tools {
+    position: absolute;
+    padding: .5em;
+    background: #ccc;
+}
+
+.tools>div {
+    margin-bottom: .5em;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 50%;
+}
+
+.penBlack {
+    background: black;
+}
+
+.penWhite {
+    background: white;
+}
+
+.penRed {
+    background: red;
+}
+
+#canvas {
+    /* border: 1px solid red; */
+}

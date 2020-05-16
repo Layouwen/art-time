@@ -1,12 +1,42 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+
 canvas.width = document.documentElement.clientWidth
 canvas.height = document.documentElement.clientHeight - 4
+
 var isTouchDevice = 'ontouchstart' in document.documentElement
+
 let painting = false
 let last
-ctx.lineWidth = 8
+
+let thick = 4
+ctx.lineWidth = thick
 ctx.lineCap = "round"
+ctx.strokeStyle = 'black'
+
+let penBlack = document.querySelector('.penBlack')
+let penWhite = document.querySelector('.penWhite')
+let penRed = document.querySelector('.penRed')
+let penSmall = document.querySelector('.penSmall')
+let penMiddle = document.querySelector('.penMiddle')
+let penBig = document.querySelector('.penBig')
+
+penBlack.onclick = function () {
+    console.log('1')
+    if (ctx.strokeStyle !== 'black') {
+        ctx.strokeStyle = 'black'
+    }
+}
+penWhite.onclick = function () {
+    if (ctx.strokeStyle !== 'white') {
+        ctx.strokeStyle = 'white'
+    }
+}
+penRed.onclick = function () {
+    if (ctx.strokeStyle !== 'red') {
+        ctx.strokeStyle = 'red'
+    }
+}
 
 if (isTouchDevice) {
     canvas.ontouchstart = (e) => {
