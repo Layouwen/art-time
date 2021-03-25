@@ -2,59 +2,57 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var isTouchDevice = 'ontouchstart' in document.documentElement
 
-canvas.width = document.documentElement.clientWidth
-canvas.height = document.documentElement.clientHeight - 4
-
 let painting = false
 let last
-ctx.lineWidth = 4
-ctx.lineCap = "round"
-ctx.strokeStyle = 'black'
+
+// 画板重置
+function init() {
+  canvas.width = document.documentElement.clientWidth
+  canvas.height = document.documentElement.clientHeight - 4
+  ctx.lineWidth = 4
+  ctx.lineCap = "round"
+  ctx.strokeStyle = canvas.style.background === 'white' ? 'black' : 'white'
+}
+
+init()
 
 // Tools
-let penBlack = document.querySelector('.penBlack')
-let penWhite = document.querySelector('.penWhite')
-let penRed = document.querySelector('.penRed')
-let penSmall = document.querySelector('.penSmall')
-let penMiddle = document.querySelector('.penMiddle')
-let penBig = document.querySelector('.penBig')
-let bgcBlack = document.querySelector('.bgcBlack')
-let bgcWhite = document.querySelector('.bgcWhite')
-let penEraser = document.querySelector('.penEraser')
-
-penBlack.onclick = () => {
-  ctx.strokeStyle !== 'black' ? ctx.strokeStyle = 'black' : ctx.strokeStyle
-}
-penWhite.onclick = () => {
-  ctx.strokeStyle !== 'white' ? ctx.strokeStyle = 'white' : ctx.strokeStyle
-}
-penRed.onclick = () => {
-  ctx.strokeStyle !== 'red' ? ctx.strokeStyle = 'red' : ctx.strokeStyle
+const clickMap = {
+  'strokeStyle .penBlack': 'black',
+  'strokeStyle .penWhite': 'white',
+  'strokeStyle .penRed': 'red',
+  'lineWidth .penSmall': 2,
+  'lineWidth .penMiddle': 4,
+  'lineWidth .penBig': 8,
+  'background .bgcBlack': 'black',
+  'background .bgcWhite': 'white',
+  'fn .penEraser': init
 }
 
-penSmall.onclick = () => {
-  ctx.lineWidth !== 2 ? ctx.lineWidth = 2 : ctx.lineWidth
-}
-penMiddle.onclick = () => {
-  ctx.lineWidth !== 4 ? ctx.lineWidth = 4 : ctx.lineWidth
-}
-penBig.onclick = () => {
-  ctx.lineWidth !== 8 ? ctx.lineWidth = 8 : ctx.lineWidth
-}
-
-bgcBlack.onclick = () => {
-  canvas.style.background !== 'black' ? canvas.style.background = 'black' : canvas.style.background
-}
-bgcWhite.onclick = () => {
-  canvas.style.background !== 'White' ? canvas.style.background = 'White' : canvas.style.background
+for (let head in clickMap) {
+  const headArr = head.split(" ")
+  if (headArr.includes("strokeStyle") || headArr.includes("lineWidth")) {
+    document.querySelector(headArr[1]).onclick = () => {
+      ctx[headArr[0]] !== clickMap[head] ? ctx[headArr[0]] = clickMap[head] : ctx[headArr[0]]
+    }
+  } else if (headArr.includes('background')) {
+    document.querySelector(headArr[1]).onclick = () => {
+      canvas.style.background !== clickMap[head] ? canvas.style.background = clickMap[head] : canvas.style.background
+    }
+  } else if (headArr.includes('fn')) {
+    document.querySelector(headArr[1]).onclick = init
+  }
 }
 
-penEraser.onclick = () => {
-  resetBoard()
+// 划线
+function draw(x1, y1, x2, y2) {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke()
 }
 
 // 绘画
-
 if (isTouchDevice) {
   canvas.ontouchstart = (e) => {
     last = [e.touches[0].clientX, e.touches[0].clientY]
@@ -80,57 +78,26 @@ if (isTouchDevice) {
   }
 }
 
+// 防抖
+function debounce(fn, delay = 500) {
+  let timer = null
+  return function () {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn()
+      timer = null
+    }, delay)
+  }
+}
+
+const changeResize = () => {
+  confirm('您的窗口发生改变，请问是否重置画板') && init()
+}
+
+
 // 检测窗口是否变动
-let onresizeTime = 0
-if (isTouchDevice) {
-  window.addEventListener("orientationchange", function () {
-    if (confirm('您的窗口发生改变，请问是否重置画板')) {
-      resetBoard()
-    }
-  }, false);
-} else {
-  window.onresize = () => {
-    if (onresizeTime !== 1) {
-      if (confirm('您的窗口发生改变，请问是否重置画板')) {
-        setTimeout(() => {
-          resetBoard()
-        }, 200)
-        onresizeTime = 1
-      } else {
-        onresizeTime = 1
-      }
-    } else {
-      onresizeTime = 0
-    }
-  }
-}
-
-
-
-// 画板重置
-function resetBoard() {
-  if (canvas.style.background === 'white') {
-    canvas.width = document.documentElement.clientWidth
-    canvas.height = document.documentElement.clientHeight - 4
-    ctx.lineWidth = 4
-    ctx.lineCap = "round"
-    ctx.strokeStyle = 'black'
-  } else {
-    canvas.width = document.documentElement.clientWidth
-    canvas.height = document.documentElement.clientHeight - 4
-    ctx.lineWidth = 4
-    ctx.lineCap = "round"
-    ctx.strokeStyle = 'white'
-  }
-}
-
-// 声明一个划线的函数
-function draw(x1, x2, y1, y2) {
-  ctx.beginPath();
-  ctx.moveTo(x1, x2);
-  ctx.lineTo(y1, y2);
-  ctx.stroke()
-}
+if (isTouchDevice) window.addEventListener("orientationchange", debounce(changeResize, 1000), false)
+else window.onresize = debounce(changeResize)
 
 // 禁止页面滑动
 var mo = function (e) {
