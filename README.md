@@ -1,24 +1,23 @@
-# Art Time 艺术时间
+# Art Time
 
-## 查看效果
+English | [简体中文](./README.zh-CN.md)
 
-[点击预览](https://layouwen.github.io/art-time/)
+## Preview
 
-## 介绍
+[https://layouwen.github.io/art-time/](https://layouwen.github.io/art-time/)
 
-适合初学 Canvas 的朋友参考，本项目使用 canvas、原生 JS 实现简易画板的效果。可用于日常学习及草稿等，适配 PC 端、移动端。
+![art-time](./images/art_time.jpeg)
 
-该画板的功能有：
+## Introduction
 
-- 三种颜色的画笔
-- 三种画笔粗细
-- 清空/重置画板
-- 背景颜色修改
-- 窗口改变检查
-- 手机翻转检测
+A simple drawing board implemented using canvas and native JavaScript, suitable for daily learning, sketching, and as a reference for beginners learning Canvas.
 
-## 联系方式
+## Features
 
-> 作者：梁又文  
-> QQ：794234293  
-> 微信：gdgzyw
+- Three brush colors
+- Three brush thicknesses
+- Clear/reset the drawing board
+- Background color modification
+- Window resize detection
+- Mobile device rotation detection
+- Support for both PC and mobile devices
